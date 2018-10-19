@@ -1,0 +1,50 @@
+
+.crud
+{
+    img
+    {
+        width:30px;
+        height: 30px;
+    }
+    .add
+    {
+        button
+        {
+            margin: 20px 0px;
+             float: right;
+        }
+    }
+
+    .edit
+    {
+       a[type=button]
+       {
+        -webkit-appearance: none;
+        -moz-appearance:    none;
+        appearance:         none;
+       }
+    }
+    .delete
+    {
+        a[type=button]
+        {
+         -webkit-appearance: none;
+         -moz-appearance:    none;
+         appearance:         none;
+        }
+        i
+        {
+           color: red
+
+        }
+    }
+}
+.viewTable
+{
+    margin-top: 50px;
+    .img
+    {
+        width: 30px;
+        height: 30px;
+    }
+}

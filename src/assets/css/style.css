@@ -1,0 +1,24 @@
+.crud img {
+  width: 30px;
+  height: 30px;
+}
+
+.crud .add button {
+  margin: 20px 0px;
+  float: right;
+}
+
+.crud .edit a[type=button] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.crud .delete i {
+  color: red;
+}
+
+.viewTable {
+  margin-top: 50px;
+}
+/*# sourceMappingURL=style.css.map */
