@@ -32,15 +32,18 @@ export class CRUDComponent implements OnInit {
 
     this.itemList=af.list('products');
     this.folder="images";
+
       //get all product
+
       this.itemList.snapshotChanges().subscribe(actions=>{
         this.itemArray=[];
         actions.forEach(action=>{
           let y =action.payload.toJSON()
           y['$key']=action.key;
           this.itemArray.push(y as ListItemClass)
-          this.index=this.itemArray.length;
+          console.log(this.itemArray)
           //get image url
+
           let storgeRef=firebase.storage().ref();
           let spaceRef=storgeRef.child(this.itemArray[this.itemArray.length-1].path);
           spaceRef.getDownloadURL().then((url)=>{
@@ -52,9 +55,6 @@ export class CRUDComponent implements OnInit {
               }
             }
       
-          }).catch((error)=>
-          {
-            console.log(error);
           })
         })
   
@@ -97,40 +97,90 @@ export class CRUDComponent implements OnInit {
       this.data.date='';
      this.data.image='';
      this.data.path='';
-    this.itemArray=[];
       this.route.navigate(['/CRUD']);
     }
-
+    dataEdit=
+    { sku:'1',
+      name:'1',
+      category:'1',
+      price:'1',
+      date:'1',
+      image:'1',
+      path:'1'
+    }
     editForm($key)
     {
       for(let value of this.itemArray)
       {
         if(value['$key']==$key)
         {
-           this.data.sku=value['sku'];
-          this.data.name= value['name'];
-          this.data.category= value['category'];
-          this.data.price= value['price'];
-          this.data.date= value['date'];
-          this.data.image= value['image'];
-          this.data.path= value['path'];
-          this.key=$key
+          this.dataEdit.sku=value['sku'];
+          this.dataEdit.name= value['name'];
+          this.dataEdit.category= value['category'];
+          this.dataEdit.price= value['price'];
+          this.dataEdit.date= value['date'];
+          this.dataEdit.image= value['image'];
+          this.dataEdit.path= value['path'];
+          this.key=$key;
+          console.log(this.dataEdit.image);
         }
       }
     }
   //edit product
   editProduct()
   {
-    this.itemList.set(this.key,{
-      sku:this.data.sku,
-      name:this.data.name,
-      category:this.data.category,
-      price:this.data.price,
-      date:this.data.date,
-      image:this.data.image,
-      path:this.data.path
+  
+    if((<HTMLInputElement>document.getElementById('imageEdit')).files[0]!==undefined)
+    {
+      alert('image change');
+      let storgeRef=firebase.storage().ref();
+      for(let selectFile of[(<HTMLInputElement>document.getElementById('imageEdit')).files[0]] )
+      {
+        let path ='/images/'+selectFile.name;
+        let iRef = storgeRef.child(path);
+        iRef.put(selectFile).then((snapshot)=>{
+         
+          let spaceRef=storgeRef.child(path);
+            spaceRef.getDownloadURL().then((url)=>{
+              for(let i=0; i<this.itemArray.length;i++)
+              {
+                if(this.itemArray[i].$key==this.key)
+                {
+                  this.dataEdit.image=url;
+                  this.dataEdit.path=path;
+                  this.itemList.set(this.key,{
+                    sku:this.dataEdit.sku,
+                    name:this.dataEdit.name,
+                    category:this.dataEdit.category,
+                    price:this.dataEdit.price,
+                    date:this.dataEdit.date,
+                    image:this.dataEdit.image,
+                    path:this.dataEdit.path
+                    
+                  })
+                }
+              }
+            })
+        })
+        
+      }
       
-    })
+    }
+    else
+    {
+      alert("image same")
+      this.itemList.set(this.key,{
+        sku:this.dataEdit.sku,
+        name:this.dataEdit.name,
+        category:this.dataEdit.category,
+        price:this.dataEdit.price,
+        date:this.dataEdit.date,
+        image:this.dataEdit.image,
+        path:this.dataEdit.path
+        
+      })
+    }
+
     document.getElementById('editModal').classList.remove('.show');
     
     this.route.navigate['/CRUD']
