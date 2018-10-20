@@ -100,13 +100,13 @@ export class CRUDComponent implements OnInit {
       this.route.navigate(['/CRUD']);
     }
     dataEdit=
-    { sku:'1',
-      name:'1',
-      category:'1',
-      price:'1',
-      date:'1',
-      image:'1',
-      path:'1'
+    { sku:'',
+      name:'',
+      category:'',
+      price:'',
+      date:'',
+      image:'',
+      path:''
     }
     editForm($key)
     {
@@ -132,7 +132,6 @@ export class CRUDComponent implements OnInit {
   
     if((<HTMLInputElement>document.getElementById('imageEdit')).files[0]!==undefined)
     {
-      alert('image change');
       let storgeRef=firebase.storage().ref();
       for(let selectFile of[(<HTMLInputElement>document.getElementById('imageEdit')).files[0]] )
       {
@@ -168,7 +167,6 @@ export class CRUDComponent implements OnInit {
     }
     else
     {
-      alert("image same")
       this.itemList.set(this.key,{
         sku:this.dataEdit.sku,
         name:this.dataEdit.name,
